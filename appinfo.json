@@ -1,0 +1,72 @@
+{
+    "appKeys": {
+    	"skinSelect": 0
+    },
+    "capabilities": [
+        "configurable"
+    ],
+    "companyName": "mike.sinisi@gmail.com",
+    "longName": "MEMPHIS",
+    "projectType": "native",
+    
+	
+	"resources": {
+        "media": [
+            {
+                "file": "images/flashy-color.png",
+                "name": "FLASHY_COLOR_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/fountainhead-color.png",
+                "name": "FOUNTAINHEAD_COLOR_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/shapeshifter-color.png",
+                "name": "SHAPESHIFTER_COLOR_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/charliebrown-color.png",
+                "name": "CHARLIEBROWN_COLOR_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/squiggle-color.png",
+                "name": "SQUIGGLE_COLOR_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/squiggle-bw.png",
+                "name": "SQUIGGLE_BW_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "fonts/Helvetica-Bold.ttf",
+                "name": "FONT_HELVETICA_BOLD_30",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Helvetica.ttf",
+                "name": "FONT_HELVETICA_30",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Helvetica-Light.ttf",
+                "name": "FONT_HELVETICA_LIGHT_20",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "MEMPHIS",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "667f4df1-e61e-4da1-b497-c6fe088a82d2",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
