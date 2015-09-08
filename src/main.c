@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "num2text.h"
+#define KEY_SKIN_SELECT 0
   
 ////////
 
@@ -23,6 +24,28 @@ static void layer1_update_proc(Layer *layer, GContext *ctx) {
 static GBitmap *s_squiggle_bitmap;
 static BitmapLayer *s_bitmap_layer;
 static Layer *s_path2_layer;
+
+static void inbox_recieved_handler(DictionaryIterator *iter, void *context) {
+	Tuple *skin_select_t = dict_find(iter, KEY_SKIN_SELECT);
+}
+
+if (skin_select_t) {
+	if (skin_select_t == 'yellow-black')
+		int skin_select = skin_select_t->value;
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		int activeSkin = 'RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE'
+			
+	if (skin_select_t == 'lavender-pink')
+		int skin_select = skin_select_t->value;
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		int activeSkin = 'RESOURCE_ID_FLASHY_COLOR_IMAGE'
+	
+	if (skin_select_t == 'yellow-pink')
+		int skin_select = skin_select_t->value;
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		int activeSkin = 'RESOURCE_ID_SQUIGGLE_COLOR_IMAGE'
+}
+
 
 ////////
 
@@ -277,7 +300,7 @@ static void handle_init() {
 
   ////////
   
-  s_squiggle_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FLASHY_COLOR_IMAGE);
+  s_squiggle_bitmap = gbitmap_create_with_resource(activeSkin);
   s_bitmap_layer = bitmap_layer_create(layer_frame);
   bitmap_layer_set_bitmap(s_bitmap_layer, s_squiggle_bitmap);
   layer_add_child(window_layer, bitmap_layer_get_layer(s_bitmap_layer));
@@ -293,6 +316,18 @@ static void handle_init() {
   s_path2_layer = layer_create(layer_frame);
   layer_set_update_proc(s_path2_layer, layer2_update_proc);
   layer_add_child(window_layer, s_path2_layer);
+  
+  if (persist_read_int(KEY_SKIN_SELECT)) {
+	  int skin_select = persist_read_int(KEY_SKIN_SELECT)
+	  if (skin_select == 'yellow-black')
+	  	int activeSkin = 'RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE'
+			
+	  if (skin_select == 'lavender-pink')
+	  	int activeSkin = 'RESOURCE_ID_FLASHY_COLOR_IMAGE'
+	
+	  if (skin_select == 'yellow-pink')
+	  	int activeSkin = 'RESOURCE_ID_SQUIGGLE_COLOR_IMAGE'
+  }
   
   ////////
   
@@ -323,8 +358,16 @@ static void handle_init() {
 
   const bool animated = true;
   window_stack_push(data->window, animated);
+  
+  
+  ////////
+  
+  app_message_register_inbox_received(inbox_received_handler);
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
 }
+
+
 
 int main(void) {
   handle_init();
@@ -333,3 +376,5 @@ int main(void) {
 
   handle_deinit();
 }
+
+//// Credit is owed to those who developed the 'Sliding Text' watchface as it was used to create the foundation for this watchface.
