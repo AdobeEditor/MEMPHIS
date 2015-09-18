@@ -45,7 +45,7 @@
 
   	<div class='item-container'>
    	  <div class='button-container'>
-     	 <input id='submitButton' type='button' class='item-button' value='SUBMIT'>
+     	 <input id='submit_button' type='button' class='item-button' value='SUBMIT'>
       </div>
   	</div>
   </body>
@@ -85,13 +85,6 @@
   document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
   });
   
-  (function() {
-    var skinSelect = document.getElementById('skin_selector');
-
-    // Load any previously saved configuration, if available
-    if(localStorage['skin_select']) {
-      skinSelect.value = localStorage['skin_select'];
-    }
 
   </script>
 </html>
