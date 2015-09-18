@@ -85,6 +85,12 @@
   document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
   });
   
+  var skinSelect = document.getElementById('skin_selector');
+
+  // Load any previously saved configuration, if available
+  if(localStorage['skin_select']) {
+    skinSelect.value = localStorage['skin_select'];
+  }
 
   </script>
 </html>
