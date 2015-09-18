@@ -31,6 +31,8 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *skin_select_t = dict_find(iter, KEY_SKIN_SELECT);
 	int skin_select = skin_select_t->value->int32;
     if (skin_select) {
+		activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
+		
     	if (skin_select == 0000100) {
     		persist_write_int(KEY_SKIN_SELECT, skin_select);
     		activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
