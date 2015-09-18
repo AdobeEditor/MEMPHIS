@@ -34,7 +34,7 @@
 	  <div class='item-container-content'>
 		  <label class='item'>
 			Skin
-		    <select id='skin_selecter' name='dropdown' class='item-select'>
+		    <select id='skin_selector' name='dropdown' class='item-select'>
 		       <option class='item-select-option' value='0000100'>Yellow / Black</option>
 		       <option class='item-select-option' value='0000101'>Lavender / Pink</option> 
 		       <option class='item-select-option' value='0000102'>Yellow / Pink</option>
@@ -52,13 +52,14 @@
   
   <script>
   function getConfigData() {
-    var skinSelect = document.getElementById('skin_selecter');
+    var skinSelect = document.getElementById('skin_selector');
     var options = {
     	'skin_select': skinSelect.value
-    };
+    }
     // Save for next launch
     localStorage['skin_select'] = options['skin_select'];
 	
+
     console.log('Got options: ' + JSON.stringify(options));
     return options;
   }
@@ -81,8 +82,16 @@
 	
     // Set the return URL depending on the runtime environment
   var return_to = getQueryParam('return_to', 'pebblejs://close#');
-  document.location = return_to;
+  document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
   });
+  
+  (function() {
+    var skinSelect = document.getElementById('skin_selector');
+
+    // Load any previously saved configuration, if available
+    if(localStorage['skin_select']) {
+      skinSelect.value = localStorage['skin_select'];
+    }
 
   </script>
 </html>
