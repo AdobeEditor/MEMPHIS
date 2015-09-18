@@ -5,7 +5,8 @@
 ////////
 
 static Layer *s_path1_layer;
-
+int activeSkin;
+	
 // GPath describes the shape
 static GPath *s_path1;
 static GPathInfo PATH_INFO1 = {
@@ -25,27 +26,26 @@ static GBitmap *s_squiggle_bitmap;
 static BitmapLayer *s_bitmap_layer;
 static Layer *s_path2_layer;
 
-static void inbox_recieved_handler(DictionaryIterator *iter, void *context) {
+
+static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *skin_select_t = dict_find(iter, KEY_SKIN_SELECT);
-}
-
-if (skin_select_t) {
-	if (skin_select_t == 'yellow-black')
-		int skin_select = skin_select_t->value;
-		persist_write_int(KEY_SKIN_SELECT, skin_select);
-		int activeSkin = 'RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE'
-			
-	if (skin_select_t == 'lavender-pink')
-		int skin_select = skin_select_t->value;
-		persist_write_int(KEY_SKIN_SELECT, skin_select);
-		int activeSkin = 'RESOURCE_ID_FLASHY_COLOR_IMAGE'
+	int skin_select = skin_select_t->value->int32;
+    if (skin_select) {
+    	if (skin_select == 0000100) {
+    		persist_write_int(KEY_SKIN_SELECT, skin_select);
+    		activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
+		}
+    	if (skin_select == 0000101) {
+    		persist_write_int(KEY_SKIN_SELECT, skin_select);
+    		activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
+		}
+    	if (skin_select == 0000102) {
+    		persist_write_int(KEY_SKIN_SELECT, skin_select);
+    		activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
+		}
+    }
 	
-	if (skin_select_t == 'yellow-pink')
-		int skin_select = skin_select_t->value;
-		persist_write_int(KEY_SKIN_SELECT, skin_select);
-		int activeSkin = 'RESOURCE_ID_SQUIGGLE_COLOR_IMAGE'
 }
-
 
 ////////
 
@@ -318,15 +318,15 @@ static void handle_init() {
   layer_add_child(window_layer, s_path2_layer);
   
   if (persist_read_int(KEY_SKIN_SELECT)) {
-	  int skin_select = persist_read_int(KEY_SKIN_SELECT)
-	  if (skin_select == 'yellow-black')
-	  	int activeSkin = 'RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE'
+	  int skin_select = persist_read_int(KEY_SKIN_SELECT);
+	  if (skin_select == 0000100)
+	  	activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
 			
-	  if (skin_select == 'lavender-pink')
-	  	int activeSkin = 'RESOURCE_ID_FLASHY_COLOR_IMAGE'
+	  if (skin_select == 0000101)
+	  	activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
 	
-	  if (skin_select == 'yellow-pink')
-	  	int activeSkin = 'RESOURCE_ID_SQUIGGLE_COLOR_IMAGE'
+	  if (skin_select == 0000102)
+	  	activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
   }
   
   ////////
