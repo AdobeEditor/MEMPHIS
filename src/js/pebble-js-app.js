@@ -15,7 +15,8 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
-  if (configData['skin_select']) {
+  var dict = {};
+  if (configData['skin_select'] === true) {
 	  dict['KEY_SKIN_SELECT'] = configData['skin_select']
   }
 
