@@ -15,13 +15,13 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
-  if (configData.skinSelect) {
-    Pebble.sendAppMessage({
-      skinSelect: configData.skinSelect
-    }, function() {
-      console.log('Send successful!');
-    }, function() {
+  if (configData['skin_select']) {
+	  dict['KEY_SKIN_SELECT'] = configData['skin_select']
+  }
+
+  Pebble.sendAppMessage(dict, function() {
+      console.log('Send successful!' + JSON.stringify(dict));
+  }, function() {
       console.log('Send failed!');
     });
-  }
 });
