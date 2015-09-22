@@ -4,8 +4,11 @@
   
 ////////
 
+static Window *s_main_window;
+static Layer *s_window_layer;
 static Layer *s_path1_layer;
 int activeSkin;
+int skin_select;
 	
 // GPath describes the shape
 static GPath *s_path1;
@@ -29,24 +32,25 @@ static Layer *s_path2_layer;
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *skin_select_t = dict_find(iter, KEY_SKIN_SELECT);
-	int skin_select = skin_select_t->value->int32;
-    if (skin_select) {
-		activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
-		
-    	if (skin_select == 0000100) {
-    		persist_write_int(KEY_SKIN_SELECT, skin_select);
-    		activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
-		}
-    	if (skin_select == 0000101) {
-    		persist_write_int(KEY_SKIN_SELECT, skin_select);
-    		activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
-		}
-    	if (skin_select == 0000102) {
-    		persist_write_int(KEY_SKIN_SELECT, skin_select);
-    		activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
-		}
-    }
+	skin_select = skin_select_t->value->int32;
 	
+	if (skin_select == 100) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
+	}
+	if (skin_select == 101) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
+	}
+	if (skin_select == 102) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
+	}
+	
+	gbitmap_destroy(s_squiggle_bitmap);
+	s_squiggle_bitmap = gbitmap_create_with_resource(activeSkin);
+	bitmap_layer_set_bitmap(s_bitmap_layer, s_squiggle_bitmap);
+	layer_mark_dirty(bitmap_layer_get_layer(s_bitmap_layer));
 }
 
 ////////
@@ -81,7 +85,7 @@ typedef struct {
   GFont helvetica30_bold;
   GFont helvetica20_light;
 
-  Window *window;
+  Window *s_main_window;
   Animation *animation;
 
 
@@ -289,58 +293,60 @@ static void handle_init() {
   data->render_state.demo_time.mins = 0;
   data->render_state.demo_time.hour = 0;
 
-  data->window = window_create();
+  data->s_main_window = window_create();
 
-  window_set_background_color(data->window, GColorWhite);
+  window_set_background_color(data->s_main_window, GColorWhite);
 
   data->helvetica30_bold = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HELVETICA_BOLD_30));
   data->helvetica20_light = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HELVETICA_LIGHT_20));
 
-  Layer *window_layer = window_get_root_layer(data->window);
-  GRect layer_frame = layer_get_frame(window_layer);
+  Layer *s_window_layer = window_get_root_layer(data->s_main_window);
+  GRect layer_frame = layer_get_frame(s_window_layer);
   const int16_t width = layer_frame.size.w;
 
   ////////
   
+  if (persist_read_int(KEY_SKIN_SELECT)) {
+	  skin_select = persist_read_int(KEY_SKIN_SELECT);
+	  	  
+		  if (skin_select == 0000100)
+		  	activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
+			
+		  if (skin_select == 0000101)
+		  	activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
+	
+		  if (skin_select == 0000102)
+		  	activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
+	  } 
+ 
+  
   s_squiggle_bitmap = gbitmap_create_with_resource(activeSkin);
   s_bitmap_layer = bitmap_layer_create(layer_frame);
   bitmap_layer_set_bitmap(s_bitmap_layer, s_squiggle_bitmap);
-  layer_add_child(window_layer, bitmap_layer_get_layer(s_bitmap_layer));
+  layer_add_child(s_window_layer, bitmap_layer_get_layer(s_bitmap_layer));
   
   s_path1 = gpath_create(&PATH_INFO1);
 
   s_path1_layer = layer_create(layer_frame);
   layer_set_update_proc(s_path1_layer, layer1_update_proc);
-  layer_add_child(window_layer, s_path1_layer);
+  layer_add_child(s_window_layer, s_path1_layer);
   
   s_path2 = gpath_create(&PATH_INFO2);
 
   s_path2_layer = layer_create(layer_frame);
   layer_set_update_proc(s_path2_layer, layer2_update_proc);
-  layer_add_child(window_layer, s_path2_layer);
-  
-  if (persist_read_int(KEY_SKIN_SELECT)) {
-	  int skin_select = persist_read_int(KEY_SKIN_SELECT);
-	  if (skin_select == 0000100)
-	  	activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
-			
-	  if (skin_select == 0000101)
-	  	activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
-	
-	  if (skin_select == 0000102)
-	  	activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
-  }
-  
+  layer_add_child(s_window_layer, s_path2_layer);
+    
   ////////
   
   init_sliding_row(data, &data->rows[1], GRect(8, 135, width, 30), data->helvetica20_light, 3);
-  layer_add_child(window_layer, text_layer_get_layer(data->rows[1].label));
+  layer_add_child(s_window_layer, text_layer_get_layer(data->rows[1].label));
   
   init_sliding_row(data, &data->rows[0], GRect(8, 100, width, 40), data->helvetica30_bold, 6);
-  layer_add_child(window_layer, text_layer_get_layer(data->rows[0].label));
+  layer_add_child(s_window_layer, text_layer_get_layer(data->rows[0].label));
 
   init_sliding_row(data, &data->rows[2], GRect(8, 170, width, 0), data->helvetica20_light, 0);
-  layer_add_child(window_layer, text_layer_get_layer(data->rows[2].label));
+  layer_add_child(s_window_layer, text_layer_get_layer(data->rows[2].label));
 
   GFont norm14 = fonts_get_system_font(FONT_KEY_GOTHIC_14);
 
@@ -349,19 +355,18 @@ static void handle_init() {
   text_layer_set_text_color(data->demo_label, GColorBlack);
   text_layer_set_font(data->demo_label, norm14);
   text_layer_set_text(data->demo_label, "demo mode");
-  layer_add_child(window_layer, text_layer_get_layer(data->demo_label));
+  layer_add_child(s_window_layer, text_layer_get_layer(data->demo_label));
 
   layer_set_hidden(text_layer_get_layer(data->demo_label), true);
-  layer_mark_dirty(window_layer);
+  layer_mark_dirty(s_window_layer);
 
   make_animation();
 
   tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 
   const bool animated = true;
-  window_stack_push(data->window, animated);
-  
-  
+  window_stack_push(data->s_main_window, animated); 
+
   ////////
   
   app_message_register_inbox_received(inbox_received_handler);
@@ -373,9 +378,7 @@ static void handle_init() {
 
 int main(void) {
   handle_init();
-
   app_event_loop();
-
   handle_deinit();
 }
 
