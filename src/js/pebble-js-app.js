@@ -12,13 +12,9 @@ Pebble.addEventListener('showConfiguration', function() {
 
 Pebble.addEventListener('webviewclosed', function(e) {
   var configData = JSON.parse(decodeURIComponent(e.response));
-
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
-  var dict = {};
-  if (configData['skin_select'] === true) {
-	  dict['KEY_SKIN_SELECT'] = configData['skin_select']
-  }
+  var dict = { 'KEY_SKIN_SELECT': parseInt(configData.skin_select, 10) };
 
   Pebble.sendAppMessage(dict, function() {
       console.log('Send successful!' + JSON.stringify(dict));
