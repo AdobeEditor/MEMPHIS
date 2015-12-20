@@ -1,6 +1,6 @@
 {
     "appKeys": {
-    	"skinSelect": 0
+    	"KEY_SKIN_SELECT": 0
     },
     "capabilities": [
         "configurable"
@@ -40,6 +40,11 @@
             {
                 "file": "images/squiggle-bw.png",
                 "name": "SQUIGGLE_BW_IMAGE",
+                "type": "png"
+            },
+            {
+                "file": "images/xmen-color.png",
+                "name": "XMEN_COLOR_IMAGE",
                 "type": "png"
             },
             {
