@@ -46,6 +46,10 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 		persist_write_int(KEY_SKIN_SELECT, skin_select);
 		activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
 	}
+	if (skin_select == 103) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_XMEN_COLOR_IMAGE;
+	}
 	
 	gbitmap_destroy(s_squiggle_bitmap);
 	s_squiggle_bitmap = gbitmap_create_with_resource(activeSkin);
@@ -309,14 +313,17 @@ static void handle_init() {
   if (persist_read_int(KEY_SKIN_SELECT)) {
 	  skin_select = persist_read_int(KEY_SKIN_SELECT);
 	  	  
-		  if (skin_select == 0000100)
+		  if (skin_select == 100)
 		  	activeSkin = RESOURCE_ID_CHARLIEBROWN_COLOR_IMAGE;
 			
-		  if (skin_select == 0000101)
+		  if (skin_select == 101)
 		  	activeSkin = RESOURCE_ID_FLASHY_COLOR_IMAGE;
 	
-		  if (skin_select == 0000102)
+		  if (skin_select == 102)
 		  	activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
+		  
+		  if (skin_select == 103)
+		  	activeSkin = RESOURCE_ID_XMEN_COLOR_IMAGE;
 	  } 
  
   
