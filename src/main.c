@@ -48,7 +48,15 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	}
 	if (skin_select == 103) {
 		persist_write_int(KEY_SKIN_SELECT, skin_select);
-		activeSkin = RESOURCE_ID_XMEN_COLOR_IMAGE;
+		activeSkin = RESOURCE_ID_ZEBRA_COLOR_IMAGE;
+	}
+	if (skin_select == 104) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_SUPERBOX_COLOR_IMAGE;
+	}
+	if (skin_select == 105) {
+		persist_write_int(KEY_SKIN_SELECT, skin_select);
+		activeSkin = RESOURCE_ID_LEOPARD_COLOR_IMAGE;
 	}
 	
 	gbitmap_destroy(s_squiggle_bitmap);
@@ -323,7 +331,13 @@ static void handle_init() {
 		  	activeSkin = RESOURCE_ID_SQUIGGLE_COLOR_IMAGE;
 		  
 		  if (skin_select == 103)
-		  	activeSkin = RESOURCE_ID_XMEN_COLOR_IMAGE;
+		  	activeSkin = RESOURCE_ID_ZEBRA_COLOR_IMAGE;
+		  
+		  if (skin_select == 104)
+		  	activeSkin = RESOURCE_ID_SUPERBOX_COLOR_IMAGE;
+		  
+		  if (skin_select == 105)
+		  	activeSkin = RESOURCE_ID_LEOPARD_COLOR_IMAGE;
 	  } 
  
   
