@@ -18,13 +18,8 @@
                 "type": "png"
             },
             {
-                "file": "images/fountainhead-color.png",
-                "name": "FOUNTAINHEAD_COLOR_IMAGE",
-                "type": "png"
-            },
-            {
-                "file": "images/shapeshifter-color.png",
-                "name": "SHAPESHIFTER_COLOR_IMAGE",
+                "file": "images/leopard-color.png",
+                "name": "LEOPARD_COLOR_IMAGE",
                 "type": "png"
             },
             {
@@ -38,13 +33,13 @@
                 "type": "png"
             },
             {
-                "file": "images/squiggle-bw.png",
-                "name": "SQUIGGLE_BW_IMAGE",
+                "file": "images/superbox-color.png",
+                "name": "SUPERBOX_COLOR_IMAGE",
                 "type": "png"
             },
             {
-                "file": "images/xmen-color.png",
-                "name": "XMEN_COLOR_IMAGE",
+                "file": "images/zebra-color.png",
+                "name": "ZEBRA_COLOR_IMAGE",
                 "type": "png"
             },
             {
